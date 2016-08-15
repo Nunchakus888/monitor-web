@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Monitor~~</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="lib/angular-ui-grid/ui-grid.css" rel="stylesheet">
+    <link href="lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <link href="lib/ss_common_style_1_3.css" rel="stylesheet">
+</head>
+<body class="ss_bg_extra" ng-app="appModule" ng-controller="appController">
+    <p class="ss-text-secondary">实时api</p>
+    <div style="display: inline; width: 100%">
+        <div style="width: 47%; float: left;" ui-grid="monitorTable.gridOptions" ui-grid-selection></div>
+        <div style="width: 47%; float: left; margin-left: 2%" ui-grid="monitorTable.gridOptions" ui-grid-selection></div>
+    </div>
+
+    <p class="ss-text-lg ss-text-info">详细分析</p>
+    <highchart id="chart1" config="chartConfig"></highchart>
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular-ui-grid/ui-grid.js"></script>
+    <script src="lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="lib/highcharts-ng/dist/highcharts.src.js"></script>
+    <script src="lib/highcharts-ng/dist/highcharts-ng.js"></script>
+    <script src="script/appController.js"></script>
+</body>
+</html>

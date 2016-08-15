@@ -1,0 +1,10 @@
+{
+    "name": "monitor-web",
+    "private": true,
+    "version": "0.0.0",
+    "devDependencies": {
+        "bower": "^1.7.7",
+        "browser-sync": "^2.14.0",
+        "gulp": "^3.9.1"
+    }
+}
