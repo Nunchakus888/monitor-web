@@ -1,11 +1,12 @@
 'use strict';
 
 angular.module('appModule', ['ui.grid', 'ui.grid.pagination', 'ui.grid.selection', 'highcharts-ng'])
-.controller('appController', function ($scope, $interval, $log) {
+
+.controller('appController', ['websocket', '$scope', '$interval', '$log', function (websocket, $scope, $interval, $log) {
+    console.log(websocket);
     $scope.monitorTable = {};
-    $scope.chartConfig = {
+    $scope.apiOperationChart = {
         options: {
-            //This is the Main Highcharts chart config. Any Highchart options are valid here.
             chart: {
                 type: 'line'
             },
@@ -14,34 +15,56 @@ angular.module('appModule', ['ui.grid', 'ui.grid.pagination', 'ui.grid.selection
                     padding: 5,
                     fontWeight: 'bold'
                 },
+
                 enabled: true,
                 formatter: function () {
-                    return '<b>用户:' + this + '</b><br/>' + '<b>第' + this.x + '次请求</b><br/>' + '耗时: ' + this.y + 'ms';
+                    window.console.log(this);
+                    return '<b>' + this.key + '请求</b><br/>耗时: ' + this.y + 'ms';
                 }
             }
         },
 
-        //Series object (optional) - a list of series using normal highcharts series options.
         series: [{
             name: 'API',
-            data: [10, 15, 12, 8, 7, 32, 44, 29, 59, 90, 49, 5, 59, 90, 49, 58, 64, 32, 10, 15]
+            data: [
+               /* [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:宝1宝', 100], [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:2宝', 100],
+                [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:宝1宝', 200], [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:2宝', 200],
+                [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:宝1宝', 300], [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:2宝', 300],
+                [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:宝1宝', 400], [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:2宝', 400],
+                [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:宝1宝', 400], [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:2宝', 400],
+                [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:宝1宝', 300], [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:2宝', 300],
+                [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:宝1宝', 600], [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:2宝', 600],
+                [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:宝1宝', 600], [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:2宝', 600],
+                [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:宝1宝', 700], [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:2宝', 700],
+                [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:宝1宝', 300], [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:2宝', 300],
+                [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:宝1宝', 600], [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:2宝', 600],
+                [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:宝1宝', 800], [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:2宝', 800],
+                [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:宝1宝', 200], [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:2宝', 200],
+                [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:宝1宝', 500], [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:2宝', 500],
+                [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:宝1宝', 100], [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:2宝', 100],
+                [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:宝1宝', 500], [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:2宝', 500],
+                [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:宝1宝', 100], [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:2宝', 100],
+                [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:宝1宝', 500], [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:2宝', 500],
+                [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:宝1宝', 700], [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:2宝', 700],
+                [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:宝1宝', 200], [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:2宝', 200],
+                [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:宝1宝', 100], [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:2宝', 100],
+                [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:宝1宝', 700], [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:2宝', 700],
+                [DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz') + '<br/>用户:宝宝', 100]*/
+            ]
         }],
-        //Title configuration (optional)
         title: {
             text: 'API Operations'
         },
         subtitle: {
             text: 'details description'
         },
-        //Boolean to control showng loading status on chart (optional)
-        //Could be a string if you want to show specific loading text.
         loading: false,
-        //Configuration for the xAxis (optional). Currently only one x axis can be dynamically controlled.
-        //properties currentMin and currentMax provied 2-way binding to the chart's maximimum and minimum
         xAxis: {
-            currentMin: 0,
-            currentMax: 60,
-            title: {text: 'api'}
+            type: 'category',
+            // categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            // currentMin: 0,
+            // currentMax: 60,
+            title: null,
         },
         //纵轴
         yAxis: {
@@ -49,9 +72,7 @@ angular.module('appModule', ['ui.grid', 'ui.grid.pagination', 'ui.grid.selection
                 text: '耗时/ms'
             }
         },
-        //Whether to use HighStocks instead of HighCharts (optional). Defaults to false.
         useHighStocks: false,
-        //size (optional) if left out the chart will default to size of the div or something sensible.
         size: {
             // width: 600,
             // height: 600
@@ -65,7 +86,7 @@ angular.module('appModule', ['ui.grid', 'ui.grid.pagination', 'ui.grid.selection
     $scope.monitorTable.gridOptions = {
 
         paginationPageSizes: [25, 50, 75],
-        paginationPageSize: 20,
+        paginationPageSize: 100,
 
         columnDefs: [
             {name: "api", displayName: "API"},
@@ -95,21 +116,32 @@ angular.module('appModule', ['ui.grid', 'ui.grid.pagination', 'ui.grid.selection
         noUnselect: true,
 
         onRegisterApi: function (gridApi) {
-            $scope.maxLength = $scope.chartConfig.series[0].data.length;
+            $scope.maxLength = $scope.apiOperationChart.series[0].data.length;
             $interval(function () {
                 $scope.monitorTable.gridOptions.data.unshift({
                     "api": "login" + ~~(Math.random() * 100),
                     "username": "Marry",
                     "time": ~~(Math.random() * 1000),
-                    "date": new Date().toString()
+                    "date": DF.format(new Date(), 'yyyy-MM-dd HH:mm:ss.zzz')
                 });
-                $scope.chartConfig.series[0].data.push([~~(Math.random() * 1000)]);
-                $scope.chartConfig.xAxis.currentMax = $scope.chartConfig.series[0].data.length;
-            }, ~~(Math.random() * 10000));
+                $scope.apiOperationChart.series[0].data.unshift([new Date() + '<br/>用户:宝宝'+Math.abs(~~(Math.random()*100)) , ~~(Math.random() * 1000)]);
+                if ($scope.apiOperationChart.series[0].data.length > 50) {
+                    $scope.apiOperationChart.series[0].data = [];
+                }
+                // $scope.apiOperationChart.xAxis.currentMax = $scope.apiOperationChart.series[0].data.length;
+            }, ~~(Math.random() * 30000));
 
             gridApi.selection.on.rowSelectionChanged($scope, function (row) {
                 console.log(row.entity.api);
-                // $scope.apiOperationDetailChart =
+                $scope.apiOperationChart.series[0].data = [];
+                $scope.apiOperationChart.title.text = row.entity.api;
+                $scope.apiOperationChart.options.chart.type = 'line';
+                $interval(function () {
+                    if ($scope.apiOperationChart.series[0].data.length > 50) {
+                        $scope.apiOperationChart.series[0].data = [];
+                    }
+                    $scope.apiOperationChart.series[0].data.push([new Date() + '<br/>用户:宝宝' + Math.abs(~~(Math.random() * 100)), ~~(Math.random() * 1000)]);
+                }, 3000);
             });
 
             /*
@@ -128,4 +160,4 @@ angular.module('appModule', ['ui.grid', 'ui.grid.pagination', 'ui.grid.selection
              });*/
         }
     };
-});
+}]);

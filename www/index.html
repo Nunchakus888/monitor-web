@@ -15,12 +15,14 @@
     <div class="grid" ui-grid="monitorTable.gridOptions"  ui-grid-selection ui-grid-pagination></div>
 
     <p class="ss-text-lg ss-text-info">详细分析</p>
-    <highchart id="apiOperationDetail" config="chartConfig"></highchart>
+    <highchart id="apiOperationDetail" config="apiOperationChart"></highchart>
     <script src="lib/angular/angular.js"></script>
     <script src="lib/angular-ui-grid/ui-grid.js"></script>
     <script src="lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="lib/highcharts-ng/dist/highcharts.src.js"></script>
     <script src="lib/highcharts-ng/dist/highcharts-ng.js"></script>
     <script src="script/appController.js"></script>
+    <script src="lib/socket.io.js"></script>
+    <script src="script/utilsServices.js"></script>
 </body>
 </html>

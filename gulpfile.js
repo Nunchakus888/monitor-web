@@ -5,19 +5,20 @@ gulp.task('watch', function () {
     gulp.watch(['./www/**/*.*', './www/*.*']).on('change', function (event) {
         browserSync.reload();
         console.log(event);
+        console.log(browserSync);
     });
 });
 
 gulp.task('browser-sync', function () {
-    browserSync.init({
-        server: {
-            baseDir: "./www"
-        },
-        port: 8888
-    });
+    /*browserSync.init({
+     server: {
+     baseDir: "./www"
+     },
+     port: 8888
+     });*/
 });
 
-gulp.task('start', ['browser-sync', 'watch'])
+gulp.task('start', ['browser-sync', 'watch']);
 
 
 /*
