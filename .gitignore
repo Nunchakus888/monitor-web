@@ -3,6 +3,8 @@ logs/*
 node_modules/
 bower_components/
 www/lib/
+my.git
 tmp
+mpm-debug.log
 .DS_Store
 .idea

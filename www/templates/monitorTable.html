@@ -1,0 +1,11 @@
+<div class="inline">
+    <div class="div-grid">
+        <p class="ss-text-lg ss-text-danger ss-text-center">实时API</p>
+        <div class="grid" ui-grid="monitorTable.gridOptions"  ui-grid-selection ui-grid-pagination my-ui-grid-auto-resize></div>
+    </div>
+    <div class="div-grid">
+        <p class="ss-text-lg ss-text-danger ss-text-center">实时API统计分析</p>
+        <div class="grid" ui-grid="monitorTableDetails.gridOptions"  ui-grid-selection ui-grid-pagination my-ui-grid-auto-resize></div>
+    </div>
+</div>
+<highchart id="apiOperationDetail" config="apiOperationChart"></highchart>
